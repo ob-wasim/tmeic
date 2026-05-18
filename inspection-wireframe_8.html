@@ -1,0 +1,1589 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inspection Results Wireframe</title>
+    <style>
+:root {
+  --page-bg: #f8f7f4;
+  --panel-bg: #ffffff;
+  --ink: #111111;
+  --muted: #57504a;
+  --line: #dedbd5;
+  --line-strong: #8f8982;
+  --brand: #2f5c5f;
+  --brand-dark: #254f52;
+  --brand-soft: #dce8e6;
+  --accent: #c77843;
+  --green: #3a7320;
+  --yellow: #b66f00;
+  --orange: #d76b00;
+  --danger: #c74634;
+  --editable-bg: #f0f7e8;
+  --editable-head: #dceccd;
+  --shadow: 0 12px 32px rgba(35, 31, 28, 0.14);
+  font-family: "Oracle Sans", Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--page-bg);
+  color: var(--ink);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.hero {
+  background: var(--brand);
+  color: #fff;
+  padding: 9px 29px 14px;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+}
+
+.header-submit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-submit-button {
+  min-height: 38px;
+  min-width: 112px;
+  border-color: rgba(255, 255, 255, 0.72);
+  background: #fff;
+  color: var(--brand-dark);
+  font-size: 0.98rem;
+}
+
+.header-disposition {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-disposition span {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9rem;
+}
+
+.title-block h1 {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.4vw, 1.28rem);
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.title-subtitle {
+  font-size: 0.82em;
+  font-weight: 500;
+  opacity: 0.78;
+}
+
+.context-strip {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 28px;
+  row-gap: 7px;
+  margin: 12px 0 0;
+}
+
+.context-strip div {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.context-strip dt,
+.context-strip dd {
+  margin: 0;
+}
+
+.context-strip dt {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.context-strip dd {
+  font-weight: 600;
+}
+
+.pattern-band {
+  height: 7px;
+  background:
+    linear-gradient(115deg, transparent 0 10%, var(--accent) 10% 12%, transparent 12% 38%, #b7cfca 38% 43%, transparent 43% 62%, var(--accent) 62% 64%, transparent 64%),
+    repeating-linear-gradient(145deg, rgba(30, 75, 74, 0.7) 0 2px, rgba(218, 230, 226, 0.45) 2px 4px);
+  background-color: #87aaa4;
+}
+
+.content {
+  padding: 12px 29px 0;
+}
+
+.snapshot-strip {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  max-width: 1488px;
+  min-height: 40px;
+  border: 1px solid #d7d2cb;
+  border-left: 4px solid var(--accent);
+  border-radius: 5px;
+  background: #fffdf9;
+  padding: 6px 12px 6px 10px;
+}
+
+.snapshot-label,
+.snapshot-owner span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.snapshot-metrics,
+.snapshot-owner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.snapshot-metrics span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  border-radius: 999px;
+  background: #f1eee9;
+  padding: 0 10px;
+  color: #312d2a;
+  font-size: 0.9rem;
+}
+
+.snapshot-metrics b,
+.snapshot-owner b {
+  font-weight: 600;
+}
+
+.snapshot-owner {
+  justify-content: flex-end;
+}
+
+.submit-button {
+  min-height: 34px;
+  border: 1px solid var(--brand-dark);
+  border-radius: 4px;
+  background: var(--brand-dark);
+  color: #fff;
+  padding: 0 18px;
+  font-weight: 600;
+}
+
+.submit-button:disabled {
+  border-color: #9f9a93;
+  background: #9f9a93;
+  cursor: default;
+}
+
+.disposition-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  min-width: 108px;
+  border-radius: 999px;
+  padding: 0 10px;
+  color: #fff;
+  font-size: 0.92rem;
+}
+
+.disposition-pill.pending {
+  background: var(--yellow);
+}
+
+.disposition-pill.completed {
+  background: var(--green);
+}
+
+.is-submitted select,
+.is-submitted input,
+.is-submitted button {
+  cursor: default;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(120px, 1fr));
+  gap: 18px;
+  margin-bottom: 34px;
+}
+
+.summary-grid article {
+  min-width: 0;
+}
+
+.summary-grid span,
+.field-label {
+  display: block;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.summary-grid strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 1.18rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.section-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 1.32rem;
+  color: var(--ink);
+}
+
+.section-toggle svg,
+.icon-button svg,
+.search-wrap svg,
+.button svg,
+td svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.section-toggle[aria-expanded="true"] svg {
+  transform: rotate(90deg);
+}
+
+.details-body {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 16px;
+  padding: 18px 0 6px 37px;
+}
+
+.details-body strong {
+  display: block;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.toolbar {
+  margin-top: 8px;
+}
+
+.search-wrap {
+  position: relative;
+  max-width: 1193px;
+}
+
+.search-wrap input {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--panel-bg);
+  padding: 0 46px 0 14px;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.search-wrap svg {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.chip,
+.button,
+.outline-dark {
+  border: 1px solid #a39f99;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
+  min-height: 40px;
+  padding: 0 18px;
+  font-weight: 500;
+}
+
+.chip {
+  min-height: 34px;
+  font-size: 0.92rem;
+}
+
+.chip.active {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+}
+
+.outline-dark {
+  align-self: start;
+  min-height: 45px;
+  border-color: rgba(255, 255, 255, 0.55);
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+}
+
+.actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.button {
+  min-height: 38px;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.button.primary {
+  background: #fff;
+}
+
+.button.split {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  width: 28px;
+  height: 34px;
+  padding: 0;
+}
+
+.table-density {
+  width: 45px;
+  height: 38px;
+  margin-left: auto;
+  border: 1px solid #a39f99;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.table-section {
+  margin-top: 8px;
+  background: var(--panel-bg);
+  margin-left: -29px;
+  margin-right: -29px;
+}
+
+.table-scroll {
+  max-height: calc(100vh - 218px);
+  min-height: 462px;
+  overflow: auto;
+  border-top: 1px solid var(--line);
+}
+
+table {
+  width: 100%;
+  min-width: 1180px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 8px 18px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  font-weight: 600;
+  font-size: 0.94rem;
+  background: var(--panel-bg);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+th:nth-child(1),
+td:nth-child(1) { width: 22%; }
+th:nth-child(2),
+td:nth-child(2) { width: 20%; }
+th:nth-child(3),
+td:nth-child(3) { width: 11%; }
+th:nth-child(4),
+td:nth-child(4) { width: 8%; text-align: center; }
+th:nth-child(5),
+td:nth-child(5) { width: 10%; }
+th:nth-child(6),
+td:nth-child(6) { width: 12%; }
+th:nth-child(7),
+td:nth-child(7) { width: 8%; text-align: center; }
+th:nth-child(8),
+td:nth-child(8) { width: 9%; text-align: center; }
+
+.editable-heading {
+  background: var(--editable-head);
+}
+
+.editable-cell {
+  background: var(--editable-bg);
+}
+
+.judgement-select {
+  width: 100%;
+  min-height: 28px;
+  border: 1px solid #7f9d68;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
+  padding: 0 10px;
+  font-weight: 500;
+}
+
+.confirm-cell {
+  text-align: center;
+}
+
+.confirm-control {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+}
+
+.confirm-control input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.confirm-control span {
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+  border: 2px solid var(--green);
+  border-radius: 4px;
+  background: #fff;
+  position: relative;
+}
+
+.confirm-control input:checked + span {
+  background: var(--green);
+}
+
+.confirm-control input:checked + span::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 6px;
+  height: 12px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.confirm-control input:focus-visible + span {
+  outline: 3px solid rgba(58, 115, 32, 0.28);
+  outline-offset: 2px;
+}
+
+.judgement-select:disabled,
+.search-wrap input:disabled {
+  border-color: #c8c2ba;
+  background: #f3f1ee;
+  color: #5f5a55;
+}
+
+.confirm-control input:disabled + span {
+  border-color: #8d8a85;
+  background: #e5e1dc;
+}
+
+.confirm-control input:checked:disabled + span {
+  background: #6f8f5f;
+}
+
+button:disabled {
+  opacity: 0.62;
+  cursor: default;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 65px;
+  min-height: 24px;
+  padding: 0 12px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--green);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.badge.pending {
+  background: var(--yellow);
+}
+
+.badge.rework {
+  background: var(--orange);
+}
+
+.badge.fail {
+  background: var(--danger);
+}
+
+.row-actions {
+  display: inline-flex;
+  gap: 17px;
+  align-items: center;
+}
+
+.action-link {
+  color: var(--ink);
+  border: 0;
+  background: transparent;
+  padding: 0;
+  width: 25px;
+  height: 25px;
+}
+
+.action-link.muted {
+  color: #8d8d8d;
+}
+
+.compact th,
+.compact td {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  font-size: 0.95rem;
+}
+
+dialog {
+  border: 0;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  padding: 0;
+  width: min(560px, calc(100vw - 32px));
+}
+
+dialog.image-dialog {
+  width: min(1180px, calc(100vw - 28px));
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.dialog-card {
+  background: #fff;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 20px;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 1.28rem;
+}
+
+.dialog-content {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+}
+
+.image-dialog .dialog-content {
+  padding: 18px 20px;
+}
+
+.image-workspace {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(320px, 1.1fr);
+  gap: 16px;
+}
+
+.image-section {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  padding: 14px;
+}
+
+.image-entry {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(320px, 1fr) minmax(260px, 0.7fr);
+  align-items: end;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.section-heading h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 650;
+}
+
+.section-heading span,
+.reference-card p,
+.empty-images,
+.captured-thumb small {
+  color: var(--muted);
+}
+
+.reference-card {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.reference-thumb,
+.captured-thumb,
+.camera-preview {
+  border: 1px solid #c9c2b8;
+  border-radius: 4px;
+  background: #f7f4ee;
+}
+
+.reference-thumb {
+  height: 104px;
+  padding: 10px;
+}
+
+.doc-line {
+  width: 82%;
+  height: 8px;
+  background: #6e7770;
+  margin-bottom: 9px;
+}
+
+.doc-line.strong {
+  height: 10px;
+  background: var(--brand);
+}
+
+.doc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-bottom: 9px;
+}
+
+.doc-grid span {
+  height: 17px;
+  border: 1px solid #a7aaa5;
+  background: #fff;
+}
+
+.doc-highlight {
+  width: 92%;
+  height: 8px;
+  background: #e2bf59;
+  margin-bottom: 5px;
+}
+
+.doc-highlight.short {
+  width: 64%;
+}
+
+.camera-button {
+  min-height: 32px;
+}
+
+.camera-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.camera-preview {
+  display: grid;
+  place-items: center;
+  min-height: 110px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(47, 92, 95, 0.88), rgba(47, 92, 95, 0.58)),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.18) 0 8px, transparent 8px 16px);
+}
+
+.captured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+  gap: 10px;
+  min-height: 54px;
+}
+
+.captured-thumb {
+  display: grid;
+  place-items: center;
+  min-height: 82px;
+  padding: 8px;
+  text-align: center;
+}
+
+.captured-thumb span {
+  font-weight: 600;
+}
+
+.image-field-grid {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) auto;
+  gap: 14px;
+  align-items: end;
+}
+
+.image-confirm-field {
+  justify-items: center;
+}
+
+.image-confirm {
+  margin-top: 4px;
+}
+
+.dialog-content label {
+  display: grid;
+  gap: 7px;
+  font-weight: 600;
+}
+
+.dialog-content input,
+.dialog-content select,
+.dialog-content textarea {
+  min-height: 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.dialog-content textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: 0;
+  padding: 16px 20px 20px;
+}
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  max-width: min(360px, calc(100vw - 48px));
+  background: #312d2a;
+  color: #fff;
+  border-radius: 4px;
+  padding: 13px 16px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    padding: 12px 18px 22px;
+  }
+
+  .hero-inner {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .outline-dark,
+  .header-submit {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .header-submit,
+  .header-disposition {
+    align-items: center;
+  }
+
+  .content {
+    padding: 12px 18px 0;
+  }
+
+  .snapshot-strip {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .image-workspace,
+  .image-entry {
+    grid-template-columns: 1fr;
+  }
+
+  .reference-card,
+  .camera-panel,
+  .image-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .snapshot-owner {
+    justify-content: flex-start;
+  }
+
+  .table-section {
+    margin-left: -18px;
+    margin-right: -18px;
+  }
+}
+
+@media (max-width: 560px) {
+  .context-strip {
+    gap: 16px;
+  }
+
+  .context-strip div {
+    width: 100%;
+  }
+
+  .search-wrap input {
+    font-size: 1rem;
+  }
+
+  .actions-row {
+    gap: 10px;
+  }
+
+  .button {
+    flex: 1 1 auto;
+  }
+}
+
+</style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <div class="hero-inner">
+          <button class="icon-button back-button" aria-label="Back">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18 9 12l6-6"></path></svg>
+          </button>
+          <div class="title-block">
+            <h1>Inspection Results <span class="title-subtitle">Inspection Plan TM - PTI - IGBT</span></h1>
+          </div>
+          <div class="header-submit">
+            <div class="header-disposition">
+              <span>Disposition</span>
+              <strong id="disposition" class="disposition-pill pending">Pending</strong>
+            </div>
+            <button class="submit-button header-submit-button" id="submitInspection">Submit</button>
+          </div>
+        </div>
+        <dl class="context-strip" aria-label="Inspection context">
+          <div><dt>Organization</dt><dd>TM Westport TX</dd></div>
+          <div><dt>Work Order</dt><dd>WP1283</dd></div>
+          <div><dt>Item</dt><dd>IGBTASSM-URN-MWFN</dd></div>
+          <div><dt>Serial Number</dt><dd>IGBTASSM-URN-MWFN90253</dd></div>
+          <div><dt>Operation</dt><dd>10</dd></div>
+        </dl>
+      </header>
+
+      <div class="pattern-band" aria-hidden="true"></div>
+
+      <main class="content">
+        <section class="snapshot-strip" aria-label="Inspection snapshot">
+          <div class="snapshot-metrics">
+            <span><b id="pendingCount">1</b> Pending</span>
+            <span><b id="acceptedCount">0</b> Accepted</span>
+            <span><b id="rejectedCount">0</b> Rejected</span>
+          </div>
+          <div class="snapshot-owner">
+            <span>Inspector <b>Maria Chen</b></span>
+            <span>Date <b>May 14, 2026</b></span>
+          </div>
+        </section>
+
+        <section class="toolbar" aria-label="Inspection tools">
+          <div class="search-wrap">
+            <label for="searchInput" class="sr-only">Search by characteristic</label>
+            <input id="searchInput" type="search" placeholder="Search by characteristic">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
+          </div>
+
+          <div class="chips" aria-label="Filters">
+            <button class="chip active" data-filter="characteristic">Characteristic</button>
+            <button class="chip" data-filter="status">Status</button>
+          </div>
+
+
+        </section>
+
+        <section class="table-section" aria-label="Inspection characteristics">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Characteristic</th>
+                  <th>Characteristic Description</th>
+                  <th class="editable-heading">Judgement</th>
+                  <th class="editable-heading">Confirm</th>
+                  <th>Status</th>
+                  <th>Specifications</th>
+                  <th>Images</th>
+                  <th>Attachments</th>
+                </tr>
+              </thead>
+              <tbody id="resultsBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="demoDialog">
+      <form method="dialog" class="dialog-card">
+        <div class="dialog-header">
+          <h2 id="dialogTitle">Inspection Action</h2>
+          <button class="icon-button" value="cancel" aria-label="Close">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <div id="dialogContent" class="dialog-content"></div>
+        <menu>
+          <button class="button" value="cancel">Cancel</button>
+          <button class="button primary" id="dialogConfirm" value="confirm">Save</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+const rows = [
+  {
+    characteristic: "1.1 Specification",
+    description: "See Instruction",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Specification reviewed and accepted.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "2.1 Ensure all drawings are the latest revision per the engineering department.",
+    description: "IMAGE CAPTURE REQUIRED",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Drawing revision photo required before final submission.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.1 Verify no damage to heat pipe",
+    description: "Station1",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "No visible dents, bends, or surface damage.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.2 Verify edge guard is installed per work instruction",
+    description: "Station 1",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Edge guard installation confirmed.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.3 Verify capacitors are installed per work ins. and validate lot numbers",
+    description: "Station 1",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Lot numbers captured for customer review.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.4 Verify polarity of IGBTs, IGBT lot numbers and sensor rating",
+    description: "Station 2",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Polarity, lot number, and sensor rating to be confirmed.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.5 Verify IGBTs are torqued per work instructions",
+    description: "Station 3",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Torque verification required per work instruction.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.6 Check Laminate for defects, scratches, discoloration and dents",
+    description: "Station 4",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Laminate visual inspection pending.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.7 Verify laminate hardware is torqued per work instruction",
+    description: "Station 4",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Laminate hardware torque check pending.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.8 Verify resistor rating and wiring per work instruction",
+    description: "Station 5",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Resistor rating and wiring verification per work instruction.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.9 Ensure fans have no damage or defects (like cracks, chipped)",
+    description: "Station 5",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Visual inspection of fans for cracks, chips, or other defects.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.10 Check gate board for damage/defects and ensure connectors are seated",
+    description: "Check gate board for damage or defects and ensure connectors are fully seated per drawing and work instruction Station 6",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Gate board inspection and connector seating verification.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.11 Ensure copper pins are fully seated into IGBT connectors.",
+    description: "Station 6: Use flashlight and available tools",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Use flashlight and available tools to verify copper pin seating.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.12 Verify Capacitors are torqued and marked, Station 6",
+    description: "Station 6",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Capacitor torque and marking verification.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.13 Confirm No orphaned items are left within the unit Station 6",
+    description: "Station 6",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Confirm no orphaned items remain inside the unit.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.14 Ensure all labels have been applied. Station 6",
+    description: "Station 6",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "All required labels applied and verified.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.15 Capture all serial numbers/lot numbers",
+    description: "Capacitors, IGBTs, Gate PCB, Heatpipe, wire and harness, laminate bus, fans",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "Capture serial/lot numbers for all listed components.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.16 Ensure all paperwork has been completed. Station 6",
+    description: "Station 6",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "All paperwork completed and filed.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.17 Sign QC tag",
+    description: "",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    notes: "QC tag to be signed upon completion.",
+    comments: "",
+    capturedImages: []
+  }
+];
+
+const icons = {
+  eye: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+  paperclip: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21.4 11.6-8.5 8.5a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 1 1-2.8-2.8l8.5-8.5"></path></svg>',
+  info: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h4v14H4z"></path><path d="M10 5h10v14H10z"></path><path d="M13 9h4"></path><path d="M13 13h4"></path><path d="M13 17h4"></path></svg>',
+  edit: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>',
+  trash: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v5"></path><path d="M14 11v5"></path></svg>'
+};
+
+const body = document.querySelector("#resultsBody");
+const searchInput = document.querySelector("#searchInput");
+const dialog = document.querySelector("#demoDialog");
+const dialogTitle = document.querySelector("#dialogTitle");
+const dialogContent = document.querySelector("#dialogContent");
+const toast = document.querySelector("#toast");
+const submitInspection = document.querySelector("#submitInspection");
+const disposition = document.querySelector("#disposition");
+let submitted = false;
+let activeImageRowIndex = null;
+
+function statusFor(row) {
+  return row.confirmed ? row.judgement : "Pending";
+}
+
+function badgeClass(status) {
+  if (status === "Fail") return "fail";
+  if (status === "Rework") return "rework";
+  if (status === "Pending") return "pending";
+  return "";
+}
+
+function judgementOptions(selected) {
+  return ["Pass", "Rework", "Fail"]
+    .map((value) => `<option value="${value}" ${selected === value ? "selected" : ""}>${value}</option>`)
+    .join("");
+}
+
+function summaryState() {
+  const hasRejectedResult = rows.some((row) => row.confirmed && ["Rework", "Fail"].includes(row.judgement));
+  const allAccepted = rows.length > 0 && rows.every((row) => row.confirmed && row.judgement === "Pass");
+
+  return {
+    pending: hasRejectedResult || allAccepted ? 0 : 1,
+    accepted: allAccepted ? 1 : 0,
+    rejected: hasRejectedResult ? 1 : 0
+  };
+}
+
+function updateSummary() {
+  const summary = summaryState();
+  document.querySelector("#pendingCount").textContent = String(summary.pending);
+  document.querySelector("#acceptedCount").textContent = String(summary.accepted);
+  document.querySelector("#rejectedCount").textContent = String(summary.rejected);
+
+  disposition.textContent = submitted ? "Completed" : "Pending";
+  disposition.classList.toggle("completed", submitted);
+  disposition.classList.toggle("pending", !submitted);
+}
+
+function setPageSubmitted() {
+  submitted = true;
+  document.body.classList.add("is-submitted");
+  searchInput.disabled = true;
+  submitInspection.disabled = true;
+
+  document.querySelectorAll(".toolbar button, .chip").forEach((control) => {
+    control.disabled = true;
+  });
+
+  renderTable(searchInput.value);
+  updateSummary();
+}
+
+function submitEligibility() {
+  const confirmedRows = rows.filter((row) => row.confirmed);
+  const allRowsConfirmed = rows.length > 0 && confirmedRows.length === rows.length;
+  const hasRejectedResult = confirmedRows.some((row) => ["Rework", "Fail"].includes(row.judgement));
+
+  return {
+    allowed: allRowsConfirmed || hasRejectedResult,
+    allRowsConfirmed,
+    hasRejectedResult
+  };
+}
+
+function renderTable(filter = "") {
+  const query = filter.trim().toLowerCase();
+  const visibleRows = rows
+    .map((row, index) => ({ row, index }))
+    .filter(({ row }) => {
+      return [row.characteristic, row.description, statusFor(row), row.judgement, row.specification]
+        .join(" ")
+        .toLowerCase()
+        .includes(query);
+    });
+
+  body.innerHTML = visibleRows.map(({ row, index }) => `
+    <tr>
+      <td>${row.characteristic}</td>
+      <td>${row.description}</td>
+      <td class="editable-cell">
+        <label class="sr-only" for="judgement-${index}">Judgement for ${row.characteristic}</label>
+        <select class="judgement-select" id="judgement-${index}" data-index="${index}" ${submitted ? "disabled" : ""}>
+          ${judgementOptions(row.judgement)}
+        </select>
+      </td>
+      <td class="editable-cell confirm-cell">
+        <label class="confirm-control" aria-label="Confirm ${row.characteristic}">
+          <input type="checkbox" class="confirm-checkbox" data-index="${index}" ${row.confirmed ? "checked" : ""} ${submitted ? "disabled" : ""}>
+          <span></span>
+        </label>
+      </td>
+      <td><span class="badge ${badgeClass(statusFor(row))}">${statusFor(row)}</span></td>
+      <td>${row.specification}</td>
+      <td><button class="action-link" data-action="attachment" data-index="${index}" aria-label="View attachment" ${submitted ? "disabled" : ""}>${icons.eye}</button></td>
+      <td><button class="action-link" data-action="files" data-index="${index}" aria-label="Open attachments" ${submitted ? "disabled" : ""}>${icons.paperclip}</button></td>
+    </tr>
+  `).join("");
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  window.clearTimeout(showToast.timer);
+  showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2400);
+}
+
+function openDialog(title, content, confirmText = "Save") {
+  dialogTitle.textContent = title;
+  dialogContent.innerHTML = content;
+  dialog.classList.remove("image-dialog");
+  document.querySelector("#dialogConfirm").textContent = confirmText;
+  dialog.showModal();
+}
+
+function openImageDialog(index) {
+  const row = rows[index];
+  activeImageRowIndex = index;
+  dialog.classList.add("image-dialog");
+  dialogTitle.textContent = "Preview Inspection Images";
+  dialogContent.innerHTML = `
+    <div class="image-workspace">
+      <section class="image-section">
+        <div class="section-heading">
+          <h3>Reference Images</h3>
+          <span>From inspection master</span>
+        </div>
+        <div class="reference-card">
+          <div class="reference-thumb" aria-label="Reference image preview">
+            <div class="doc-line strong"></div>
+            <div class="doc-grid">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </div>
+            <div class="doc-highlight"></div>
+            <div class="doc-highlight short"></div>
+          </div>
+          <div>
+            <strong>${row.characteristic}</strong>
+            <p>${row.notes}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="image-section">
+        <div class="section-heading">
+          <h3>Captured Images</h3>
+          <button class="button camera-button" type="button" id="openCamera">Open Camera</button>
+        </div>
+        <div class="camera-panel" id="cameraPanel" hidden>
+          <div class="camera-preview">
+            <span>Camera Preview</span>
+          </div>
+          <button class="button primary" type="button" id="captureImage">Capture Image</button>
+        </div>
+        <div class="captured-grid" id="capturedGrid">
+          ${renderCapturedImages(row)}
+        </div>
+      </section>
+
+      <section class="image-section image-entry">
+        <label>Comments
+          <textarea id="imageComments" placeholder="Enter inspection comments">${row.comments || ""}</textarea>
+        </label>
+        <div class="image-field-grid">
+          <label>Judgement
+            <select id="imageJudgement">
+              ${judgementOptions(row.judgement)}
+            </select>
+          </label>
+          <label class="image-confirm-field">Confirm
+            <span class="confirm-control image-confirm">
+              <input type="checkbox" id="imageConfirm" ${row.confirmed ? "checked" : ""}>
+              <span></span>
+            </span>
+          </label>
+        </div>
+      </section>
+    </div>
+  `;
+  document.querySelector("#dialogConfirm").textContent = "Save to Row";
+  dialog.showModal();
+}
+
+function renderCapturedImages(row) {
+  if (!row.capturedImages.length) {
+    return `<p class="empty-images">No images captured</p>`;
+  }
+
+  return row.capturedImages.map((image, index) => `
+    <div class="captured-thumb">
+      <span>${image}</span>
+      <small>Image ${index + 1}</small>
+    </div>
+  `).join("");
+}
+
+function saveImageDialogToRow() {
+  if (activeImageRowIndex === null) return;
+
+  const row = rows[activeImageRowIndex];
+  row.comments = document.querySelector("#imageComments")?.value || "";
+  row.judgement = document.querySelector("#imageJudgement")?.value || row.judgement;
+  row.confirmed = Boolean(document.querySelector("#imageConfirm")?.checked);
+  renderTable(searchInput.value);
+  updateSummary();
+  showToast("Image details updated on inspection row");
+  activeImageRowIndex = null;
+}
+
+function rowForm(row = {}) {
+  return `
+    <label>Characteristic
+      <input id="formCharacteristic" value="${row.characteristic || ""}">
+    </label>
+    <label>Description
+      <textarea id="formDescription">${row.description || ""}</textarea>
+    </label>
+    <label>Status
+      <select id="formStatus">
+        ${["Pass", "Rework", "Fail"].map((status) => `<option ${row.judgement === status ? "selected" : ""}>${status}</option>`).join("")}
+      </select>
+    </label>
+    <label>Specifications
+      <input id="formSpecification" value="${row.specification || "Pass"}">
+    </label>
+  `;
+}
+
+searchInput.addEventListener("input", (event) => {
+  renderTable(event.target.value);
+});
+
+document.querySelectorAll(".chip").forEach((chip) => {
+  chip.addEventListener("click", () => {
+    document.querySelectorAll(".chip").forEach((item) => item.classList.remove("active"));
+    chip.classList.add("active");
+    showToast(`${chip.textContent} filter selected`);
+  });
+});
+
+submitInspection.addEventListener("click", () => {
+  const eligibility = submitEligibility();
+  if (!eligibility.allowed) {
+    showToast("Please confirm all inspection lines before submitting, unless a confirmed line requires Rework or Fail disposition.");
+    return;
+  }
+
+  setPageSubmitted();
+  showToast("Inspection submitted and locked");
+});
+
+
+body.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
+
+  const row = rows[Number(button.dataset.index)];
+  const action = button.dataset.action;
+
+  if (action === "edit") {
+    openDialog("Edit Characteristic", rowForm(row), "Save");
+    return;
+  }
+
+  if (action === "delete") {
+    showToast("Delete action selected for demo");
+    return;
+  }
+
+  if (action === "attachment" || action === "files") {
+    openImageDialog(Number(button.dataset.index));
+  }
+});
+
+dialogContent.addEventListener("click", (event) => {
+  if (event.target.closest("#openCamera")) {
+    document.querySelector("#cameraPanel").hidden = false;
+    showToast("Camera opened for demo");
+    return;
+  }
+
+  if (event.target.closest("#captureImage") && activeImageRowIndex !== null) {
+    const row = rows[activeImageRowIndex];
+    row.capturedImages.push(`Capture ${row.capturedImages.length + 1}`);
+    document.querySelector("#capturedGrid").innerHTML = renderCapturedImages(row);
+    showToast("Image captured");
+  }
+});
+
+body.addEventListener("change", (event) => {
+  const judgement = event.target.closest(".judgement-select");
+  if (judgement) {
+    const row = rows[Number(judgement.dataset.index)];
+    row.judgement = judgement.value;
+    renderTable(searchInput.value);
+    updateSummary();
+    showToast(`Judgement set to ${judgement.value}`);
+    return;
+  }
+
+  const confirm = event.target.closest(".confirm-checkbox");
+  if (confirm) {
+    const row = rows[Number(confirm.dataset.index)];
+    row.confirmed = confirm.checked;
+    renderTable(searchInput.value);
+    updateSummary();
+    showToast(confirm.checked ? `Line confirmed as ${row.judgement}` : "Line moved back to Pending");
+  }
+});
+
+dialog.addEventListener("close", () => {
+  if (dialog.returnValue === "confirm") {
+    if (dialog.classList.contains("image-dialog")) {
+      saveImageDialogToRow();
+    } else {
+      showToast("Demo action completed");
+    }
+  }
+  dialog.classList.remove("image-dialog");
+  activeImageRowIndex = null;
+});
+
+renderTable();
+updateSummary();
+
+</script>
+  </body>
+</html>
