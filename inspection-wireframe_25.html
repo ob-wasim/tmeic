@@ -1,0 +1,1931 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inspection Results Wireframe</title>
+    <style>
+:root {
+  --page-bg: #f8f7f4;
+  --panel-bg: #ffffff;
+  --ink: #111111;
+  --muted: #57504a;
+  --line: #dedbd5;
+  --line-strong: #8f8982;
+  --brand: #2f5c5f;
+  --brand-dark: #254f52;
+  --brand-soft: #dce8e6;
+  --accent: #c77843;
+  --green: #3a7320;
+  --yellow: #b66f00;
+  --orange: #d76b00;
+  --danger: #c74634;
+  --editable-bg: #f0f7e8;
+  --editable-head: #dceccd;
+  --shadow: 0 12px 32px rgba(35, 31, 28, 0.14);
+  font-family: "Oracle Sans", Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--page-bg);
+  color: var(--ink);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.hero {
+  background: var(--brand);
+  color: #fff;
+  padding: 9px 29px 14px;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+}
+
+.header-submit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-submit-button {
+  min-height: 38px;
+  min-width: 112px;
+  border-color: rgba(255, 255, 255, 0.72);
+  background: #fff;
+  color: var(--brand-dark);
+  font-size: 0.98rem;
+}
+
+.header-disposition {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-disposition span {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9rem;
+}
+
+.title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.row-locked {
+  opacity: 0.45;
+  pointer-events: none;
+  user-select: none;
+}
+
+.confirm-blocked {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.confirm-blocked input {
+  pointer-events: none;
+}
+
+.seq-control-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seq-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.seq-select {
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.seq-select option {
+  color: #111;
+  background: #fff;
+}
+
+.title-block h1 {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.4vw, 1.28rem);
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.title-subtitle {
+  font-size: 0.82em;
+  font-weight: 500;
+  opacity: 0.78;
+}
+
+.context-strip {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 28px;
+  row-gap: 7px;
+  margin: 12px 0 0;
+}
+
+.context-strip div {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.context-strip dt,
+.context-strip dd {
+  margin: 0;
+}
+
+.context-strip dt {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.context-strip dd {
+  font-weight: 600;
+}
+
+.pattern-band {
+  height: 7px;
+  background:
+    linear-gradient(115deg, transparent 0 10%, var(--accent) 10% 12%, transparent 12% 38%, #b7cfca 38% 43%, transparent 43% 62%, var(--accent) 62% 64%, transparent 64%),
+    repeating-linear-gradient(145deg, rgba(30, 75, 74, 0.7) 0 2px, rgba(218, 230, 226, 0.45) 2px 4px);
+  background-color: #87aaa4;
+}
+
+.content {
+  padding: 12px 29px 0;
+}
+
+.snapshot-strip {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  max-width: 1488px;
+  min-height: 40px;
+  border: 1px solid #d7d2cb;
+  border-left: 4px solid var(--accent);
+  border-radius: 5px;
+  background: #fffdf9;
+  padding: 6px 12px 6px 10px;
+}
+
+.snapshot-label,
+.snapshot-owner span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.snapshot-metrics,
+.snapshot-owner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.snapshot-metrics span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  border-radius: 999px;
+  background: #f1eee9;
+  padding: 0 10px;
+  color: #312d2a;
+  font-size: 0.9rem;
+}
+
+.snapshot-metrics b,
+.snapshot-owner b {
+  font-weight: 600;
+}
+
+.snapshot-owner {
+  justify-content: flex-end;
+}
+
+.submit-button {
+  min-height: 34px;
+  border: 1px solid var(--brand-dark);
+  border-radius: 4px;
+  background: var(--brand-dark);
+  color: #fff;
+  padding: 0 18px;
+  font-weight: 600;
+}
+
+.submit-button:disabled {
+  border-color: #9f9a93;
+  background: #9f9a93;
+  cursor: default;
+}
+
+.disposition-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  min-width: 108px;
+  border-radius: 999px;
+  padding: 0 10px;
+  color: #fff;
+  font-size: 0.92rem;
+}
+
+.disposition-pill.pending {
+  background: var(--yellow);
+}
+
+.disposition-pill.completed {
+  background: var(--green);
+}
+
+.is-submitted select,
+.is-submitted input,
+.is-submitted button {
+  cursor: default;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(120px, 1fr));
+  gap: 18px;
+  margin-bottom: 34px;
+}
+
+.summary-grid article {
+  min-width: 0;
+}
+
+.summary-grid span,
+.field-label {
+  display: block;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.summary-grid strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 1.18rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.section-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 1.32rem;
+  color: var(--ink);
+}
+
+.section-toggle svg,
+.icon-button svg,
+.search-wrap svg,
+.button svg,
+td svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.section-toggle[aria-expanded="true"] svg {
+  transform: rotate(90deg);
+}
+
+.details-body {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 16px;
+  padding: 18px 0 6px 37px;
+}
+
+.details-body strong {
+  display: block;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.toolbar {
+  margin-top: 8px;
+}
+
+.search-wrap {
+  position: relative;
+  max-width: 1193px;
+}
+
+.search-wrap input {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--panel-bg);
+  padding: 0 46px 0 14px;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.search-wrap svg {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.chip,
+.button,
+.outline-dark {
+  border: 1px solid #a39f99;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
+  min-height: 40px;
+  padding: 0 18px;
+  font-weight: 500;
+}
+
+.chip {
+  min-height: 34px;
+  font-size: 0.92rem;
+}
+
+.chip.active {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+}
+
+.outline-dark {
+  align-self: start;
+  min-height: 45px;
+  border-color: rgba(255, 255, 255, 0.55);
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+}
+
+.actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.button {
+  min-height: 38px;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.button.primary {
+  background: #fff;
+}
+
+.button.split {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  width: 28px;
+  height: 34px;
+  padding: 0;
+}
+
+.table-density {
+  width: 45px;
+  height: 38px;
+  margin-left: auto;
+  border: 1px solid #a39f99;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.table-section {
+  margin-top: 8px;
+  background: var(--panel-bg);
+  margin-left: -29px;
+  margin-right: -29px;
+}
+
+.table-scroll {
+  max-height: calc(100vh - 218px);
+  min-height: 462px;
+  overflow: auto;
+  border-top: 1px solid var(--line);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 7px 8px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  font-weight: 600;
+  font-size: 0.8rem;
+  background: var(--panel-bg);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+th:nth-child(1),
+td:nth-child(1) { width: 24%; }
+th:nth-child(2),
+td:nth-child(2) { width: 22%; }
+th:nth-child(3),
+td:nth-child(3) { width: 10%; }
+th:nth-child(4),
+td:nth-child(4) { width: 7%; text-align: center; }
+th:nth-child(5),
+td:nth-child(5) { width: 9%; }
+th:nth-child(6),
+td:nth-child(6) { width: 9%; }
+th:nth-child(7),
+td:nth-child(7) { width: 7%; text-align: center; }
+th:nth-child(8),
+td:nth-child(8) { width: 6%; text-align: center; }
+th:nth-child(9),
+td:nth-child(9) { width: 6%; text-align: center; }
+
+.editable-heading {
+  background: var(--editable-head);
+}
+
+.editable-cell {
+  background: var(--editable-bg);
+}
+
+.judgement-select {
+  width: 100%;
+  min-height: 28px;
+  border: 1px solid #7f9d68;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
+  padding: 0 10px;
+  font-weight: 500;
+}
+
+.confirm-cell {
+  text-align: center;
+}
+
+.confirm-control {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+}
+
+.confirm-control input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.confirm-control span {
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+  border: 2px solid var(--cb-color, var(--yellow));
+  border-radius: 4px;
+  background: #fff;
+  position: relative;
+}
+
+.confirm-control input:checked + span {
+  background: var(--cb-color, var(--yellow));
+}
+
+.confirm-control input:checked + span::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 6px;
+  height: 12px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.confirm-control input:focus-visible + span {
+  outline: 3px solid rgba(182, 111, 0, 0.28);
+  outline-offset: 2px;
+}
+
+.judgement-select:disabled,
+.search-wrap input:disabled {
+  border-color: #c8c2ba;
+  background: #f3f1ee;
+  color: #5f5a55;
+}
+
+.confirm-control input:disabled + span {
+  border-color: #8d8a85;
+  background: #e5e1dc;
+}
+
+.confirm-control input:checked:disabled + span {
+  background: #6f8f5f;
+}
+
+button:disabled {
+  opacity: 0.62;
+  cursor: default;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 65px;
+  min-height: 24px;
+  padding: 0 12px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--green);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.badge.pending {
+  background: var(--yellow);
+}
+
+.badge.rework {
+  background: var(--orange);
+}
+
+.badge.fail {
+  background: var(--danger);
+}
+
+.row-actions {
+  display: inline-flex;
+  gap: 17px;
+  align-items: center;
+}
+
+.action-link {
+  color: var(--ink);
+  border: 0;
+  background: transparent;
+  padding: 0;
+  width: 25px;
+  height: 25px;
+}
+
+.action-link.muted {
+  color: #8d8d8d;
+}
+
+.compact th,
+.compact td {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  font-size: 0.95rem;
+}
+
+dialog {
+  border: 0;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  padding: 0;
+  width: min(560px, calc(100vw - 32px));
+}
+
+dialog.image-dialog {
+  width: min(1180px, calc(100vw - 28px));
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.dialog-card {
+  background: #fff;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 20px;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 1.28rem;
+}
+
+.dialog-content {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+}
+
+.image-dialog .dialog-content {
+  padding: 18px 20px;
+}
+
+.img-sections-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.image-workspace {
+  display: grid;
+  gap: 16px;
+}
+
+.image-section {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  padding: 14px;
+}
+
+.image-entry {
+  grid-template-columns: minmax(320px, 1fr) minmax(260px, 0.7fr);
+  align-items: end;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.section-heading h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 650;
+}
+
+.section-heading span,
+.reference-card p,
+.attachment-workspace {
+  display: grid;
+  gap: 20px;
+}
+
+.attachment-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  padding: 16px 0;
+}
+
+.attach-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 120px;
+  padding: 20px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel-bg);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.attach-btn:hover {
+  border-color: var(--brand);
+  background: #fff;
+  color: var(--brand);
+}
+
+.attach-btn svg {
+  stroke: currentColor;
+}
+
+.attach-list {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.attach-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.img-dialog-meta {
+  padding: 10px 0 14px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 14px;
+}
+
+.img-dialog-characteristic {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+
+.img-dialog-description {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.img-cell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: #ccc;
+}
+
+.img-cell svg {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.img-cell.has-images {
+  color: #111;
+}
+
+.img-cell.has-images svg,
+.img-cell.has-images path,
+.img-cell.has-images circle {
+  stroke: #111 !important;
+}
+.captured-thumb small {
+  color: var(--muted);
+}
+
+.reference-card {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.reference-thumb,
+.captured-thumb,
+.camera-preview {
+  border: 1px solid #c9c2b8;
+  border-radius: 4px;
+  background: #f7f4ee;
+}
+
+.reference-thumb {
+  height: 104px;
+  padding: 10px;
+}
+
+.doc-line {
+  width: 82%;
+  height: 8px;
+  background: #6e7770;
+  margin-bottom: 9px;
+}
+
+.doc-line.strong {
+  height: 10px;
+  background: var(--brand);
+}
+
+.doc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-bottom: 9px;
+}
+
+.doc-grid span {
+  height: 17px;
+  border: 1px solid #a7aaa5;
+  background: #fff;
+}
+
+.doc-highlight {
+  width: 92%;
+  height: 8px;
+  background: #e2bf59;
+  margin-bottom: 5px;
+}
+
+.doc-highlight.short {
+  width: 64%;
+}
+
+.camera-button {
+  min-height: 32px;
+}
+
+.camera-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.camera-preview {
+  display: grid;
+  place-items: center;
+  min-height: 110px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(47, 92, 95, 0.88), rgba(47, 92, 95, 0.58)),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.18) 0 8px, transparent 8px 16px);
+}
+
+.captured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+  gap: 10px;
+  min-height: 54px;
+}
+
+.captured-thumb {
+  display: grid;
+  place-items: center;
+  min-height: 82px;
+  padding: 8px;
+  text-align: center;
+}
+
+.captured-thumb span {
+  font-weight: 600;
+}
+
+.image-field-grid {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) auto;
+  gap: 14px;
+  align-items: end;
+}
+
+.image-confirm-field {
+  justify-items: center;
+}
+
+.image-confirm {
+  margin-top: 4px;
+}
+
+.dialog-content label {
+  display: grid;
+  gap: 7px;
+  font-weight: 600;
+}
+
+.dialog-content input,
+.dialog-content select,
+.dialog-content textarea {
+  min-height: 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.dialog-content textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: 0;
+  padding: 16px 20px 20px;
+}
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  max-width: min(360px, calc(100vw - 48px));
+  background: #312d2a;
+  color: #fff;
+  border-radius: 4px;
+  padding: 13px 16px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    padding: 12px 18px 22px;
+  }
+
+  .hero-inner {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .outline-dark,
+  .header-submit {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .header-submit,
+  .header-disposition {
+    align-items: center;
+  }
+
+  .content {
+    padding: 12px 18px 0;
+  }
+
+  .snapshot-strip {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .image-workspace,
+  .image-entry {
+    grid-template-columns: 1fr;
+  }
+
+  .reference-card,
+  .camera-panel,
+  .image-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .snapshot-owner {
+    justify-content: flex-start;
+  }
+
+  .table-section {
+    margin-left: -18px;
+    margin-right: -18px;
+  }
+}
+
+@media (max-width: 560px) {
+  .context-strip {
+    gap: 16px;
+  }
+
+  .context-strip div {
+    width: 100%;
+  }
+
+  .search-wrap input {
+    font-size: 1rem;
+  }
+
+  .actions-row {
+    gap: 10px;
+  }
+
+  .button {
+    flex: 1 1 auto;
+  }
+}
+
+</style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <div class="hero-inner">
+          <button class="icon-button back-button" aria-label="Back">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18 9 12l6-6"></path></svg>
+          </button>
+          <div class="title-block">
+            <h1>Inspection Results <span class="title-subtitle">Inspection Plan TM - PTI - IGBT</span></h1>
+            <div class="seq-control-wrap">
+              <label class="seq-label" for="seqControlled">Sequence Controlled</label>
+              <select id="seqControlled" class="seq-select">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+          </div>
+          <div class="header-submit">
+            <div class="header-disposition">
+              <span>Disposition</span>
+              <strong id="disposition" class="disposition-pill pending">Pending</strong>
+            </div>
+            <button class="submit-button header-submit-button" id="submitInspection">Submit</button>
+          </div>
+        </div>
+        <dl class="context-strip" aria-label="Inspection context">
+          <div><dt>Organization</dt><dd>TM Westport TX</dd></div>
+          <div><dt>Work Order</dt><dd>WP1283</dd></div>
+          <div><dt>Item</dt><dd>IGBTASSM-URN-MWFN</dd></div>
+          <div><dt>Serial Number</dt><dd>IGBTASSM-URN-MWFN90253</dd></div>
+          <div><dt>Operation</dt><dd>10</dd></div>
+        </dl>
+      </header>
+
+      <div class="pattern-band" aria-hidden="true"></div>
+
+      <main class="content">
+        <section class="snapshot-strip" aria-label="Inspection snapshot">
+          <div class="snapshot-metrics">
+            <span><b id="pendingCount">1</b> Pending</span>
+            <span><b id="acceptedCount">0</b> Accepted</span>
+            <span><b id="rejectedCount">0</b> Rejected</span>
+          </div>
+
+        </section>
+
+        <section class="toolbar" aria-label="Inspection tools">
+          <div class="search-wrap">
+            <label for="searchInput" class="sr-only">Search by characteristic</label>
+            <input id="searchInput" type="search" placeholder="Search by characteristic">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
+          </div>
+
+          <div class="chips" aria-label="Filters">
+            <button class="chip active" data-filter="characteristic">Characteristic</button>
+            <button class="chip" data-filter="status">Status</button>
+          </div>
+
+
+        </section>
+
+        <section class="table-section" aria-label="Inspection characteristics">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Characteristic</th>
+                  <th>Characteristic Description</th>
+                  <th class="editable-heading">Judgement</th>
+                  <th class="editable-heading">Confirm</th>
+                  <th>Status</th>
+                  <th>Specifications</th>
+                  <th>Image Required</th>
+                  <th>Images</th>
+                  <th>Attachments</th>
+                </tr>
+              </thead>
+              <tbody id="resultsBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="demoDialog">
+      <form method="dialog" class="dialog-card">
+        <div class="dialog-header">
+          <h2 id="dialogTitle">Inspection Action</h2>
+          <button class="icon-button" value="cancel" aria-label="Close">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <div id="dialogContent" class="dialog-content"></div>
+        <menu>
+          <button class="button" value="cancel">Cancel</button>
+          <button class="button primary" id="dialogConfirm" value="confirm">Save</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+const rows = [
+  {
+    characteristic: "1.1 Specification",
+    description: "See Instruction",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "Specification reviewed and accepted.",
+    comments: "",
+    capturedImages: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Simple_Electrical_Schematic.png/320px-Simple_Electrical_Schematic.png", label: "Specification drawing" }
+    ]
+  },
+  {
+    characteristic: "2.1 Ensure all drawings are the latest revision per the engineering department.",
+    description: "IMAGE CAPTURE REQUIRED",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: true,
+    notes: "Drawing revision photo required before final submission.",
+    comments: "",
+    capturedImages: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/24701-CC-Wiki.jpg/320px-24701-CC-Wiki.jpg", label: "PCB reference drawing" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Single_IC_chip.jpg/320px-Single_IC_chip.jpg", label: "IC chip reference" }
+    ]
+  },
+  {
+    characteristic: "3.1 Verify no damage to heat pipe",
+    description: "Station1",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: true,
+    notes: "No visible dents, bends, or surface damage.",
+    comments: "",
+    capturedImages: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Two_heat_pipes.jpg/320px-Two_heat_pipes.jpg", label: "Heat pipe reference" }
+    ]
+  },
+  {
+    characteristic: "3.2 Verify edge guard is installed per work instruction",
+    description: "Station 1",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "Edge guard installation confirmed.",
+    comments: "",
+    capturedImages: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Single_IC_chip.jpg/320px-Single_IC_chip.jpg", label: "Edge guard IC reference" }
+    ]
+  },
+  {
+    characteristic: "3.3 Verify capacitors are installed per work ins. and validate lot numbers",
+    description: "Station 1",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: true,
+    notes: "Lot numbers captured for customer review.",
+    comments: "",
+    capturedImages: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Capacitors_%287189597135%29.jpg/320px-Capacitors_%287189597135%29.jpg", label: "Capacitor reference" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Capacitors_various.jpg/320px-Capacitors_various.jpg", label: "Capacitor types" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Capacitor_symbols.svg/240px-Capacitor_symbols.svg.png", label: "Capacitor polarity symbols" }
+    ]
+  },
+  {
+    characteristic: "3.4 Verify polarity of IGBTs, IGBT lot numbers and sensor rating",
+    description: "Station 2",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: true,
+    notes: "Polarity, lot number, and sensor rating to be confirmed.",
+    comments: "",
+    capturedImages: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/IGBT_rendering.png/320px-IGBT_rendering.png", label: "IGBT module reference" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/IGBT_simple_circuit.svg/320px-IGBT_simple_circuit.svg.png", label: "IGBT circuit diagram" }
+    ]
+  },
+  {
+    characteristic: "3.5 Verify IGBTs are torqued per work instructions",
+    description: "Station 3",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "Torque verification required per work instruction.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.6 Check Laminate for defects, scratches, discoloration and dents",
+    description: "Station 4",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: true,
+    notes: "Laminate visual inspection pending.",
+    comments: "",
+    capturedImages: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/24701-CC-Wiki.jpg/320px-24701-CC-Wiki.jpg", label: "PCB laminate reference" }
+    ]
+  },
+  {
+    characteristic: "3.7 Verify laminate hardware is torqued per work instruction",
+    description: "Station 4",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "Laminate hardware torque check pending.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.8 Verify resistor rating and wiring per work instruction",
+    description: "Station 5",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "Resistor rating and wiring verification per work instruction.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.9 Ensure fans have no damage or defects (like cracks, chipped)",
+    description: "Station 5",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: true,
+    notes: "Visual inspection of fans for cracks, chips, or other defects.",
+    comments: "",
+    capturedImages: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pcfan.jpg/320px-Pcfan.jpg", label: "Fan reference" }
+    ]
+  },
+  {
+    characteristic: "3.10 Check gate board for damage/defects and ensure connectors are seated",
+    description: "Check gate board for damage or defects and ensure connectors are fully seated per drawing and work instruction Station 6",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: true,
+    notes: "Gate board inspection and connector seating verification.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.11 Ensure copper pins are fully seated into IGBT connectors.",
+    description: "Station 6: Use flashlight and available tools",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "Use flashlight and available tools to verify copper pin seating.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.12 Verify Capacitors are torqued and marked, Station 6",
+    description: "Station 6",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "Capacitor torque and marking verification.",
+    comments: "",
+    capturedImages: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Capacitors_%287189597135%29.jpg/320px-Capacitors_%287189597135%29.jpg", label: "Capacitor torque reference" }
+    ]
+  },
+  {
+    characteristic: "3.13 Confirm No orphaned items are left within the unit Station 6",
+    description: "Station 6",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "Confirm no orphaned items remain inside the unit.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.14 Ensure all labels have been applied. Station 6",
+    description: "Station 6",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "All required labels applied and verified.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.15 Capture all serial numbers/lot numbers",
+    description: "Capacitors, IGBTs, Gate PCB, Heatpipe, wire and harness, laminate bus, fans",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: true,
+    notes: "Capture serial/lot numbers for all listed components.",
+    comments: "",
+    capturedImages: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/24701-CC-Wiki.jpg/320px-24701-CC-Wiki.jpg", label: "Component label reference" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Single_IC_chip.jpg/320px-Single_IC_chip.jpg", label: "IC serial reference" }
+    ]
+  },
+  {
+    characteristic: "3.16 Ensure all paperwork has been completed. Station 6",
+    description: "Station 6",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "All paperwork completed and filed.",
+    comments: "",
+    capturedImages: []
+  },
+  {
+    characteristic: "3.17 Sign QC tag",
+    description: "",
+    judgement: "Pass",
+    confirmed: false,
+    specification: "Pass",
+    requireImage: false,
+    notes: "QC tag to be signed upon completion.",
+    comments: "",
+    capturedImages: []
+  }
+];
+
+const icons = {
+  eye: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+  camera: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>',
+  paperclip: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21.4 11.6-8.5 8.5a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 1 1-2.8-2.8l8.5-8.5"></path></svg>',
+  info: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h4v14H4z"></path><path d="M10 5h10v14H10z"></path><path d="M13 9h4"></path><path d="M13 13h4"></path><path d="M13 17h4"></path></svg>',
+  edit: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>',
+  trash: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v5"></path><path d="M14 11v5"></path></svg>'
+};
+
+const body = document.querySelector("#resultsBody");
+const searchInput = document.querySelector("#searchInput");
+const dialog = document.querySelector("#demoDialog");
+const dialogTitle = document.querySelector("#dialogTitle");
+const dialogContent = document.querySelector("#dialogContent");
+const toast = document.querySelector("#toast");
+const submitInspection = document.querySelector("#submitInspection");
+const disposition = document.querySelector("#disposition");
+let submitted = false;
+let activeImageRowIndex = null;
+
+function statusFor(row) {
+  return row.confirmed ? row.judgement : "Pending";
+}
+
+function badgeClass(status) {
+  if (status === "Fail") return "fail";
+  if (status === "Rework") return "rework";
+  if (status === "Pending") return "pending";
+  return "";
+}
+
+function judgementOptions(selected) {
+  return ["Pass", "Rework", "Fail"]
+    .map((value) => `<option value="${value}" ${selected === value ? "selected" : ""}>${value}</option>`)
+    .join("");
+}
+
+function summaryState() {
+  const hasRejectedResult = rows.some((row) => row.confirmed && ["Rework", "Fail"].includes(row.judgement));
+  const allAccepted = rows.length > 0 && rows.every((row) => row.confirmed && row.judgement === "Pass");
+
+  return {
+    pending: hasRejectedResult || allAccepted ? 0 : 1,
+    accepted: allAccepted ? 1 : 0,
+    rejected: hasRejectedResult ? 1 : 0
+  };
+}
+
+function updateSummary() {
+  const summary = summaryState();
+  document.querySelector("#pendingCount").textContent = String(summary.pending);
+  document.querySelector("#acceptedCount").textContent = String(summary.accepted);
+  document.querySelector("#rejectedCount").textContent = String(summary.rejected);
+
+  disposition.textContent = submitted ? "Completed" : "Pending";
+  disposition.classList.toggle("completed", submitted);
+  disposition.classList.toggle("pending", !submitted);
+}
+
+function setPageSubmitted() {
+  submitted = true;
+  document.body.classList.add("is-submitted");
+  searchInput.disabled = true;
+  submitInspection.disabled = true;
+
+  document.querySelectorAll(".toolbar button, .chip").forEach((control) => {
+    control.disabled = true;
+  });
+
+  renderTable(searchInput.value);
+  updateSummary();
+}
+
+function submitEligibility() {
+  const confirmedRows = rows.filter((row) => row.confirmed);
+  const allRowsConfirmed = rows.length > 0 && confirmedRows.length === rows.length;
+  const hasRejectedResult = confirmedRows.some((row) => ["Rework", "Fail"].includes(row.judgement));
+
+  return {
+    allowed: allRowsConfirmed || hasRejectedResult,
+    allRowsConfirmed,
+    hasRejectedResult
+  };
+}
+
+function isSequenceControlled() {
+  return document.querySelector("#seqControlled")?.value === "yes";
+}
+
+function firstUnconfirmedIndex() {
+  for (let i = 0; i < rows.length; i++) {
+    if (!rows[i].confirmed) return i;
+  }
+  return rows.length;
+}
+
+function canConfirmRow(index) {
+  const row = rows[index];
+  if (row.requireImage && (!row.userCapturedImages || row.userCapturedImages.length === 0)) return false;
+  return true;
+}
+
+function renderTable(filter = "") {
+  const seqControlled = isSequenceControlled();
+  const firstUnconfirmed = firstUnconfirmedIndex();
+  const query = filter.trim().toLowerCase();
+  const visibleRows = rows
+    .map((row, index) => ({ row, index }))
+    .filter(({ row }) => {
+      return [row.characteristic, row.description, statusFor(row), row.judgement, row.specification]
+        .join(" ")
+        .toLowerCase()
+        .includes(query);
+    });
+
+  body.innerHTML = visibleRows.map(({ row, index }) => {
+    const isLocked = seqControlled && index > firstUnconfirmed;
+    const confirmBlocked = !canConfirmRow(index);
+    const disableAll = submitted || isLocked;
+    const disableConfirm = disableAll || confirmBlocked;
+    const cbColor = statusFor(row) === "Pass" ? "var(--green)" : statusFor(row) === "Rework" ? "var(--orange)" : statusFor(row) === "Fail" ? "var(--danger)" : "var(--yellow)";
+    const confirmTitle = confirmBlocked ? "Captured image required before confirming" : isLocked ? "Complete previous row first" : "";
+    return `
+    <tr class="${isLocked ? "row-locked" : ""}">
+      <td>${row.characteristic}</td>
+      <td>${row.description}</td>
+      <td class="editable-cell">
+        <label class="sr-only" for="judgement-${index}">Judgement for ${row.characteristic}</label>
+        <select class="judgement-select" id="judgement-${index}" data-index="${index}" ${disableAll ? "disabled" : ""}>
+          ${judgementOptions(row.judgement)}
+        </select>
+      </td>
+      <td class="editable-cell confirm-cell">
+        <label class="confirm-control${disableConfirm ? " confirm-blocked" : ""}" aria-label="Confirm ${row.characteristic}" title="${confirmTitle}" style="--cb-color: ${cbColor}">
+          <input type="checkbox" class="confirm-checkbox" data-index="${index}" ${row.confirmed ? "checked" : ""} ${disableConfirm ? "disabled" : ""}>
+          <span></span>
+        </label>
+      </td>
+      <td><span class="badge ${badgeClass(statusFor(row))}">${statusFor(row)}</span></td>
+      <td>${row.specification}</td>
+      <td style="text-align:center">${row.requireImage ? '<svg viewBox="0 0 24 24" width="16" height="16" aria-label="Image required" style="color:#2a7d2e;stroke:#2a7d2e;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ""}</td>
+      <td><button class="action-link img-cell${row.capturedImages.length > 0 ? " has-images" : ""}" data-action="attachment" data-index="${index}" aria-label="View images" ${disableAll ? "disabled" : ""}>${icons.camera}</button></td>
+      <td><button class="action-link" data-action="files" data-index="${index}" aria-label="Open attachments" ${disableAll ? "disabled" : ""}>${icons.paperclip}</button></td>
+    </tr>
+  `}).join("");
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  window.clearTimeout(showToast.timer);
+  showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2400);
+}
+
+function openDialog(title, content, confirmText = "Save") {
+  dialogTitle.textContent = title;
+  dialogContent.innerHTML = content;
+  dialog.classList.remove("image-dialog");
+  document.querySelector("#dialogConfirm").textContent = confirmText;
+  dialog.showModal();
+}
+
+function openImageDialog(index) {
+  const row = rows[index];
+  if (!row.userCapturedImages) row.userCapturedImages = [];
+  activeImageRowIndex = index;
+  dialog.classList.add("image-dialog");
+  dialogTitle.textContent = "Images";
+  dialogContent.innerHTML = `
+    <div class="image-workspace">
+      <div class="img-dialog-meta">
+        <p class="img-dialog-characteristic">${row.characteristic}</p>
+        ${row.description ? `<p class="img-dialog-description">${row.description}</p>` : ""}
+      </div>
+
+      <div class="img-sections-row">
+        <section class="image-section">
+          <div class="section-heading">
+            <h3>Reference Images</h3>
+            <span>From inspection master</span>
+          </div>
+          <div class="captured-grid">
+            ${renderCapturedImages(row)}
+          </div>
+        </section>
+
+        <section class="image-section">
+          <div class="section-heading">
+            <h3>Captured Images</h3>
+            <button class="button camera-button" type="button" id="openCamera">Open Camera</button>
+          </div>
+          <div class="captured-grid" id="capturedGrid">
+            ${renderUserCapturedImages(row)}
+          </div>
+        </section>
+      </div>
+
+      <section class="image-section image-entry">
+        <label>Comments
+          <textarea id="imageComments" placeholder="Enter inspection comments">${row.comments || ""}</textarea>
+        </label>
+        <div class="image-field-grid">
+          <label>Judgement
+            <select id="imageJudgement">
+              ${judgementOptions(row.judgement)}
+            </select>
+          </label>
+          <label class="image-confirm-field">Confirm
+            <span class="confirm-control image-confirm${row.requireImage && (!row.userCapturedImages || !row.userCapturedImages.length) ? " confirm-blocked" : ""}" id="imageConfirmWrap">
+              <input type="checkbox" id="imageConfirm" ${row.confirmed ? "checked" : ""} ${row.requireImage && (!row.userCapturedImages || !row.userCapturedImages.length) ? "disabled" : ""} title="${row.requireImage && (!row.userCapturedImages || !row.userCapturedImages.length) ? "Capture an image before confirming" : ""}">
+              <span></span>
+            </span>
+          </label>
+        </div>
+      </section>
+    </div>
+  `;
+  document.querySelector("#dialogConfirm").textContent = "Save & Next";
+  dialog.showModal();
+
+  document.querySelector("#openCamera")?.addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.capture = "environment";
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        row.userCapturedImages.push({ url: ev.target.result, label: file.name });
+        document.querySelector("#capturedGrid").innerHTML = renderUserCapturedImages(row);
+        // Unblock the confirm checkbox once at least one image is captured
+        const confirmInput = document.querySelector("#imageConfirm");
+        const confirmWrap = document.querySelector("#imageConfirmWrap");
+        if (confirmInput && row.requireImage) {
+          confirmInput.disabled = false;
+          confirmInput.title = "";
+          confirmWrap?.classList.remove("confirm-blocked");
+        }
+        showToast("Image captured");
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  });
+}
+
+function renderCapturedImages(row) {
+  if (!row.capturedImages.length) {
+    return `<p class="empty-images">No images captured</p>`;
+  }
+
+  return row.capturedImages.map((image, index) => {
+    const url = typeof image === "object" ? image.url : image;
+    const label = typeof image === "object" ? image.label : `Image ${index + 1}`;
+    return `
+    <div class="captured-thumb">
+      <img src="${url}" alt="${label}" style="width:100%;height:80px;object-fit:cover;border-radius:4px;display:block;border:1px solid #ddd;" onerror="this.style.display='none';this.nextSibling.style.display='flex';" />
+      <div style="display:none;width:100%;height:80px;align-items:center;justify-content:center;background:#f0f0f0;border-radius:4px;font-size:11px;color:#888;">Image unavailable</div>
+      <small>${label}</small>
+    </div>
+  `}).join("");
+}
+
+function renderUserCapturedImages(row) {
+  if (!row.userCapturedImages || !row.userCapturedImages.length) {
+    return `<p class="empty-images">No images captured</p>`;
+  }
+  return row.userCapturedImages.map((image, index) => {
+    const url = typeof image === "object" ? image.url : image;
+    const label = typeof image === "object" ? image.label : `Image ${index + 1}`;
+    return `
+    <div class="captured-thumb">
+      <img src="${url}" alt="${label}" style="width:100%;height:80px;object-fit:cover;border-radius:4px;display:block;border:1px solid #ddd;" onerror="this.style.display='none';this.nextSibling.style.display='flex';" />
+      <div style="display:none;width:100%;height:80px;align-items:center;justify-content:center;background:#f0f0f0;border-radius:4px;font-size:11px;color:#888;">Image unavailable</div>
+      <small>${label}</small>
+    </div>
+  `}).join("");
+}
+
+function saveImageDialogToRow() {
+  if (activeImageRowIndex === null) return;
+
+  const row = rows[activeImageRowIndex];
+  row.comments = document.querySelector("#imageComments")?.value || "";
+  row.judgement = document.querySelector("#imageJudgement")?.value || row.judgement;
+  row.confirmed = Boolean(document.querySelector("#imageConfirm")?.checked);
+  renderTable(searchInput.value);
+  updateSummary();
+
+  const nextIndex = activeImageRowIndex + 1;
+  activeImageRowIndex = null;
+
+  if (nextIndex < rows.length) {
+    showToast("Saved. Moving to next record...");
+    setTimeout(() => openImageDialog(nextIndex), 150);
+  } else {
+    showToast("All records saved");
+  }
+}
+function rowForm(row = {}) {
+  return `
+    <label>Characteristic
+      <input id="formCharacteristic" value="${row.characteristic || ""}">
+    </label>
+    <label>Description
+      <textarea id="formDescription">${row.description || ""}</textarea>
+    </label>
+    <label>Status
+      <select id="formStatus">
+        ${["Pass", "Rework", "Fail"].map((status) => `<option ${row.judgement === status ? "selected" : ""}>${status}</option>`).join("")}
+      </select>
+    </label>
+    <label>Specifications
+      <input id="formSpecification" value="${row.specification || "Pass"}">
+    </label>
+  `;
+}
+
+searchInput.addEventListener("input", (event) => {
+  renderTable(event.target.value);
+});
+
+document.querySelectorAll(".chip").forEach((chip) => {
+  chip.addEventListener("click", () => {
+    document.querySelectorAll(".chip").forEach((item) => item.classList.remove("active"));
+    chip.classList.add("active");
+    showToast(`${chip.textContent} filter selected`);
+  });
+});
+
+submitInspection.addEventListener("click", () => {
+  const eligibility = submitEligibility();
+  if (!eligibility.allowed) {
+    showToast("Please confirm all inspection lines before submitting, unless a confirmed line requires Rework or Fail disposition.");
+    return;
+  }
+
+  setPageSubmitted();
+  showToast("Inspection submitted and locked");
+});
+
+
+body.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
+
+  const row = rows[Number(button.dataset.index)];
+  const action = button.dataset.action;
+
+  if (action === "edit") {
+    openDialog("Edit Characteristic", rowForm(row), "Save");
+    return;
+  }
+
+  if (action === "delete") {
+    showToast("Delete action selected for demo");
+    return;
+  }
+
+  if (action === "attachment") {
+    openImageDialog(Number(button.dataset.index));
+    return;
+  }
+
+  if (action === "files") {
+    openAttachmentDialog(Number(button.dataset.index));
+  }
+});
+
+
+
+
+body.addEventListener("change", (event) => {
+  const judgement = event.target.closest(".judgement-select");
+  if (judgement) {
+    const row = rows[Number(judgement.dataset.index)];
+    row.judgement = judgement.value;
+    renderTable(searchInput.value);
+    updateSummary();
+    showToast(`Judgement set to ${judgement.value}`);
+    return;
+  }
+
+  const confirm = event.target.closest(".confirm-checkbox");
+  if (confirm) {
+    const idx = Number(confirm.dataset.index);
+    if (!canConfirmRow(idx)) {
+      confirm.checked = false;
+      showToast("Please capture an image before confirming this row");
+      return;
+    }
+    const row = rows[idx];
+    row.confirmed = confirm.checked;
+    renderTable(searchInput.value);
+    updateSummary();
+    showToast(confirm.checked ? `Line confirmed as ${row.judgement}` : "Line moved back to Pending");
+  }
+});
+
+dialog.addEventListener("close", () => {
+  if (dialog.returnValue === "confirm") {
+    if (dialog.classList.contains("image-dialog")) {
+      saveImageDialogToRow();
+    } else {
+      showToast("Demo action completed");
+    }
+  }
+  dialog.classList.remove("image-dialog");
+  activeImageRowIndex = null;
+});
+
+function openAttachmentDialog(index) {
+  const row = rows[index];
+  dialog.classList.remove("image-dialog");
+  dialogTitle.textContent = "Attachments";
+  dialogContent.innerHTML = `
+    <div class="attachment-workspace">
+      <div class="img-dialog-meta">
+        <p class="img-dialog-characteristic">${row.characteristic}</p>
+        ${row.description ? `<p class="img-dialog-description">${row.description}</p>` : ""}
+      </div>
+      <div class="attachment-actions">
+        <button class="attach-btn" type="button" id="attachCamera">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <span>Open Camera</span>
+        </button>
+        <button class="attach-btn" type="button" id="attachFile">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m21.4 11.6-8.5 8.5a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 1 1-2.8-2.8l8.5-8.5"></path>
+          </svg>
+          <span>Attachment</span>
+        </button>
+      </div>
+      <div class="attach-list" id="attachList">
+        ${row.attachments && row.attachments.length ? row.attachments.map(a => `<div class="attach-item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m21.4 11.6-8.5 8.5a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 1 1-2.8-2.8l8.5-8.5"></path></svg> ${a}</div>`).join("") : "<p class='empty-images'>No attachments added</p>"}
+      </div>
+    </div>
+  `;
+  document.querySelector("#dialogConfirm").textContent = "Done";
+  dialog.showModal();
+
+  document.querySelector("#attachCamera")?.addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.capture = "environment";
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!row.attachments) row.attachments = [];
+      row.attachments.push(file.name);
+      document.querySelector("#attachList").innerHTML = row.attachments.map(a => `<div class="attach-item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m21.4 11.6-8.5 8.5a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 1 1-2.8-2.8l8.5-8.5"></path></svg> ${a}</div>`).join("");
+      showToast("Photo attached");
+    };
+    input.click();
+  });
+
+  document.querySelector("#attachFile")?.addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "*/*";
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!row.attachments) row.attachments = [];
+      row.attachments.push(file.name);
+      document.querySelector("#attachList").innerHTML = row.attachments.map(a => `<div class="attach-item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m21.4 11.6-8.5 8.5a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 1 1-2.8-2.8l8.5-8.5"></path></svg> ${a}</div>`).join("");
+      showToast("File attached");
+    };
+    input.click();
+  });
+}
+
+document.querySelector("#seqControlled")?.addEventListener("change", () => {
+  renderTable(searchInput.value);
+  showToast(`Sequence Controlled set to ${document.querySelector("#seqControlled").value === "yes" ? "Yes" : "No"}`);
+});
+
+renderTable();
+updateSummary();
+
+</script>
+  </body>
+</html>
